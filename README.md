@@ -1,117 +1,104 @@
-# Proyecto de Minería de Datos y Modelización Predictiva
 
-Este repositorio contiene el desarrollo completo del proyecto académico de la asignatura **Minería de Datos y Modelización Predictiva** del Máster en Big Data, Data Science e Inteligencia Artificial de la Universidad Complutense de Madrid.
+# Análisis Predictivo de Abstención Electoral en Municipios de España
 
----
-
-## 🎯 Objetivo
-
-El objetivo principal del proyecto es construir dos modelos predictivos sobre datos reales de resultados electorales en los municipios de España:
-
-- 📉 Un modelo de **Regresión Lineal** para predecir el porcentaje de abstención electoral como variable continua.
-- 🔍 Un modelo de **Regresión Logística** para clasificar si un municipio tiene alta o baja abstención (binario), usando como umbral la mediana.
+Este proyecto ha sido desarrollado como parte del Máster en Big Data, Data Science e Inteligencia Artificial de la Universidad Complutense de Madrid, dentro de la asignatura "Minería de Datos y Modelización Predictiva".
 
 ---
 
-## 📂 Estructura del Repositorio
+## 🎯 Objetivo del Estudio
+
+El propósito principal de este trabajo es construir modelos predictivos sobre datos reales de resultados electorales en municipios de España. Se plantean dos enfoques:
+
+- **Regresión Lineal:** para predecir el porcentaje de abstención electoral como variable continua.
+- **Regresión Logística:** para predecir si un municipio tendrá una abstención alta o baja (superior a la mediana).
+
+---
+
+## 📊 Estructura del Proyecto
 
 ```
-TareaMineriaGerson/
-│
-├── data/                     # Contiene el archivo original con datos electorales
-│   └── DatosEleccionesEspaña.xlsx
-│
-├── informe/                 # Informe académico del proyecto y gráficos utilizados
-│   ├── TAREA GERSON CASTILLO MINERIA DE DATOS.pdf
-│   ├── curva_roc_punto_optimo.png
-│   ├── boxplot_auc_modelos.png
-│   └── boxplot_r2_modelos.png
-│
-├── src/                     # Código principal del análisis
-│   └── codigo_mineria.py
-│
-├── librerias.txt            # Dependencias necesarias para ejecutar el código
-├── README.md                # Este archivo
-└── .gitignore               # Archivos ignorados por git
+📁 TareaMineriaGerson/
+├── data/                      <- Contiene el archivo `DatosEleccionesEspaña.xlsx`.
+├── informe/                  <- Informe PDF y gráficos analíticos extraídos del estudio.
+├── src/                      <- Código principal del análisis (`codigo_mineria.py`).
+├── librerias.txt             <- Librerías necesarias para la ejecución.
+├── README.md                 <- Este archivo.
+└── .gitignore                <- Configuración para excluir archivos innecesarios.
 ```
 
 ---
 
-## 🧠 Metodología
+## ⚙️ Metodología
 
-El análisis sigue una estructura rigurosa:
+1. **Carga y Limpieza de Datos:**
+   - Eliminación de variables no utilizadas.
+   - Tratamiento de outliers y valores perdidos.
+   - Conversión de variables cualitativas codificadas numéricamente.
 
-1. **Carga y exploración inicial** de datos.
-2. **Corrección de errores** y valores atípicos.
-3. **Tratamiento de valores perdidos** y recodificación.
-4. **Modelado**:
-   - **Regresión lineal múltiple** con selección de variables (`Stepwise`, `Backward`, `Forward`).
-   - **Regresión logística** para clasificación binaria.
-5. **Validación cruzada** con 20 repeticiones y 5 bloques.
-6. **Evaluación de métricas**: R², AUC y punto óptimo ROC.
-7. **Selección de modelo ganador y análisis de coeficientes.**
+2. **Análisis Descriptivo:**
+   - Frecuencias para variables categóricas.
+   - Estadísticos extendidos (asimetría, curtosis, rango).
 
----
+3. **Modelos Predictivos:**
+   - **Regresión Lineal Múltiple:** selección de variables mediante métodos *stepwise*, *backward*, y *forward* (criterios AIC/BIC).
+   - **Regresión Logística:** misma lógica aplicada a clasificación binaria.
 
-## 📊 Resultados Relevantes
-
-### 🔷 Comparación de R² entre modelos lineales
-![R2 modelos](informe/boxplot_r2_modelos.png)
-
-El modelo **Stepwise BIC** obtuvo un R² promedio competitivo frente a modelos aleatorios seleccionados mediante submuestreo.
+4. **Validación Cruzada:**
+   - 5 bloques x 20 repeticiones para comparar rendimiento de modelos.
+   - Métricas: $R^2$ para regresión lineal, AUC para clasificación binaria.
 
 ---
 
-### 🔶 Comparación de AUC entre modelos logísticos
-![AUC modelos](informe/boxplot_auc_modelos.png)
+## 📈 Resultados Destacados
 
-El modelo **Backward BIC** fue el mejor clasificador en validación cruzada, con un AUC promedio superior.
+### 📌 Comparación de Modelos de Regresión Lineal
 
----
+<img src="informe/boxplot_r2_modelos.png" alt="Boxplot R²" width="500"/>
 
-### 🟥 Curva ROC y punto de corte óptimo
-![Curva ROC](informe/curva_roc_punto_optimo.png)
-
-El punto óptimo fue determinado minimizando la distancia al punto (0,1), con un valor umbral de clasificación de **0.4765**.
+El modelo construido mediante **Stepwise con BIC** obtiene el mejor rendimiento promedio en $R^2$.
 
 ---
 
-## 📐 Fórmulas y técnicas utilizadas
+### 📌 Comparación de Modelos de Regresión Logística
 
-- **R² (coeficiente de determinación):**  
-  \( R^2 = 1 - rac{SS_{res}}{SS_{tot}} \)
+<img src="informe/boxplot_auc_modelos.png" alt="Boxplot AUC" width="500"/>
 
-- **Curva ROC y AUC:**  
-  AUC (Área bajo la curva) mide la capacidad del modelo de distinguir entre clases.
-
-- **Distancia al punto óptimo ROC:**  
-  \( d = \sqrt{(1 - TPR)^2 + FPR^2} \)
-
-- **Selección de variables:**  
-  Mediante criterios AIC y BIC con procedimientos stepwise, forward y backward.
+El modelo **Backward BIC** obtiene el mejor AUC, indicando mayor capacidad predictiva de abstención alta.
 
 ---
 
-## ⚙️ Requisitos
+### 📌 Curva ROC y Punto Óptimo
 
-Instalar las dependencias indicadas en `librerias.txt`. Recomendado crear un entorno virtual:
+<img src="informe/curva_roc_punto_optimo.png" alt="Curva ROC" width="500"/>
 
-```bash
-pip install -r librerias.txt
-```
+El punto de corte óptimo se selecciona como el más cercano al vértice (0,1) de la curva ROC. Esto minimiza simultáneamente la tasa de falsos positivos y maximiza los verdaderos positivos.
 
 ---
 
-## 📑 Informe Académico
+## 🔍 Interpretación
 
-Consulta el informe completo en PDF en la carpeta [`informe/`](informe/TAREA%20GERSON%20CASTILLO%20MINERIA%20DE%20DATOS.pdf)
+El análisis muestra que las variables demográficas y socioeconómicas como `WomanPopulationPtge`, `Age_19_65_pct`, así como características regionales (`CCAA`, `ActividadPpal`, etc.), tienen impacto relevante en los patrones de abstención. La clasificación binaria aporta una visión complementaria y robusta al tratar el fenómeno como un problema de decisión.
 
 ---
 
-## ✍️ Autor
+## 📂 Datos
+
+El archivo **`DatosEleccionesEspaña.xlsx`** incluye una muestra de municipios con información electoral y censal. Dada su naturaleza, no se incluye el archivo `.xlsx` completo por privacidad de la fuente original.
+
+---
+
+## 📌 Conclusiones
+
+- Se han empleado metodologías estadísticas clásicas con validación robusta.
+- Se obtuvo un modelo explicativo fiable para predecir abstención.
+- Los resultados fueron consistentes entre los enfoques determinísticos y aleatorios.
+- El proyecto ilustra una aplicación real de la minería de datos al análisis político-social.
+
+---
+
+## 🧠 Autor
 
 **Gerson Castillo López**  
-Proyecto para la Universidad Complutense de Madrid  
-Máster en Big Data, Data Science e Inteligencia Artificial
+Estudiante del Máster en Big Data, UCM  
+Repositorio GitHub: [gersoncl10000](https://github.com/gersoncl10000)
 
----
