@@ -85,7 +85,7 @@ $$
 ### Curva ROC y punto de corte óptimo
 
 <div align="center">
-  <img src="informe/roc_curva_punto_optimo.png" width="600px">
+  <img src="informe/curva_roc_punto_optimo.png" width="600px">
 </div>
 
 ---
