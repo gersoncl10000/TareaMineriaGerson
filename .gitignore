@@ -1,10 +1,24 @@
-# Archivos y carpetas a ignorar
-__pycache__/
+# Archivos de entorno y configuración local
 *.pyc
-*.log
-.DS_Store
+__pycache__/
 .env
-.vscode/
-*.xlsx
-FuncionesMineria.py
+*.env
 
+# Archivos de MS Office temporales
+~$*
+
+# Dataset original si es privado o pesado
+*.xlsx
+
+# Carpeta de entorno virtual (si la tienes)
+env/
+venv/
+.venv/
+
+# Carpeta de salida o informes generados
+informe/
+*.pdf
+*.docx
+
+~$*
+*.docx
