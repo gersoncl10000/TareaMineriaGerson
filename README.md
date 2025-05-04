@@ -1,135 +1,126 @@
 
-# Análisis Predictivo de la Abstención Electoral en Municipios de España
+# Predicción de la Abstención Electoral en Municipios de España (2019)
 
-**Autor**: Gerson Castillo  
-**Máster**: Big Data, Data Science e Inteligencia Artificial  
-**Universidad Complutense de Madrid**  
-**Asignatura**: Minería de Datos y Modelización Predictiva  
+Este proyecto ha sido desarrollado como parte del Máster en Big Data, Data Science e Inteligencia Artificial en la Universidad Complutense de Madrid. El objetivo es modelar y predecir la abstención electoral utilizando técnicas de minería de datos y regresión.
 
 ---
 
-## Objetivo del Estudio
+## 🎯 Objetivo del Estudio
 
-Este proyecto se desarrolla en el marco de una tarea evaluable con el objetivo de **predecir el nivel de abstención electoral** en municipios españoles. Se plantea un enfoque riguroso basado en técnicas de regresión lineal y logística, aplicando criterios de selección de variables, tratamiento de datos reales y validación cruzada exhaustiva.
+Construir dos modelos predictivos sobre datos reales de resultados electorales en España a nivel municipal:
 
-El análisis se divide en dos partes:
-
-- **Regresión lineal** para predecir el porcentaje de abstención (`AbstentionPtge`) como variable continua.
-- **Regresión logística** para predecir la probabilidad de alta abstención (variable binaria derivada del umbral mediana).
+- **Regresión lineal** para predecir el porcentaje de abstención (`AbstentionPtge`).
+- **Regresión logística** para clasificar si un municipio tiene alta abstención (`AbstencionAlta`, binaria).
 
 ---
 
-## Estructura del Proyecto
+## 📦 Fuente de Datos
+
+El conjunto de datos se encuentra en el archivo:
 
 ```
-TareaMineriaGerson/
-│
+data/DatosEleccionesEspaña.xlsx
+```
+
+Contiene indicadores socioeconómicos, demográficos y administrativos para todos los municipios de España en 2019.
+
+---
+
+## 🧪 Metodología
+
+### 1. Preprocesamiento de Datos
+
+- Conversión de tipos de variables.
+- Detección y tratamiento de valores erróneos y atípicos.
+- Eliminación de observaciones con más del 50% de `NaNs`.
+- Agrupación de categorías raras.
+
+### 2. Modelado Predictivo
+
+- **Modelos utilizados**:
+  - Regresión Lineal: `lm_stepwise`, `lm_backward`, `lm_forward`.
+  - Regresión Logística: `glm_stepwise`, `glm_backward`, `glm_forward`.
+
+- **Criterios de selección**:
+  - Métricas de información: `AIC` y `BIC`.
+  - Validación cruzada: 5 bloques × 20 repeticiones.
+
+### 3. Evaluación y Comparación
+
+- Métricas utilizadas:
+  - Regresión lineal: R² (train/test).
+  - Regresión logística: Accuracy y AUC.
+- Determinación del punto óptimo de corte mediante la curva ROC.
+
+---
+
+## 📊 Resultados
+
+### 🔵 Validación Cruzada (Regresión Lineal)
+
+![Boxplot R²](informe/boxplot_r2_modelos.png)
+
+> El modelo elegido fue el **Stepwise BIC**, con buena generalización y bajo número de parámetros.
+
+### 🟢 Validación Cruzada (Regresión Logística)
+
+![Boxplot AUC](informe/boxplot_auc_modelos.png)
+
+> El modelo **Backward BIC** superó en AUC a las combinaciones aleatorias.
+
+### 🔺 Curva ROC y Punto Óptimo
+
+![Curva ROC](informe/curva_roc_logistica.png)
+
+> Punto de corte óptimo: 0.4765
+
+---
+
+## 📁 Estructura del Repositorio
+
+```
 ├── data/
 │   └── DatosEleccionesEspaña.xlsx
-│
-├── src/
-│   └── codigo_mineria.py
-│
 ├── informe/
 │   ├── TAREA GERSON CASTILLO MINERIA DE DATOS.pdf
 │   ├── boxplot_r2_modelos.png
-│   ├── curva_roc_punto_optimo.png
-│   └── validacion_cruzada_auc.png
-│
+│   ├── boxplot_auc_modelos.png
+│   └── curva_roc_logistica.png
+├── src/
+│   └── codigo_mineria.py
+├── librerias.txt
 └── README.md
 ```
 
 ---
 
-## Metodología Aplicada
+## ⚙️ Requisitos del Entorno
 
-### Preprocesamiento
+Instalar entorno y librerías especificadas en:
 
-- Imputación y eliminación de datos perdidos
-- Recodificación de variables cualitativas
-- Tratamiento de valores atípicos mediante reglas estadísticas
-- Estandarización de nombres y formatos
-
-### Modelos Construidos
-
-#### 1. **Regresión Lineal Múltiple**
-
-Se evaluaron seis modelos clásicos de selección de variables:
-
-- `Stepwise` con criterios AIC y BIC
-- `Forward` y `Backward` con AIC y BIC
-
-Se incorporó además una estrategia aleatoria con selección repetida de subconjuntos. La fórmula con mayor frecuencia fue validada con:
-
-```math
-R^2 = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}
+```
+librerias.txt
 ```
 
-#### 2. **Regresión Logística Binaria**
+Entorno recomendado: `Spyder` (Python 3.9).
 
-La variable binaria `AbstencionAlta` se define como:
+---
 
-```math
-AbstencionAlta = 
-\begin{cases}
-1 & \text{si } AbstentionPtge > \text{mediana} \\
-0 & \text{en caso contrario}
-\end{cases}
+## ▶️ Ejecución
+
+Ejecutar el código principal desde:
+
+```
+src/codigo_mineria.py
 ```
 
-Modelos evaluados: `Stepwise`, `Forward`, `Backward` con AIC/BIC y selección aleatoria.
+---
+
+## 👤 Autor
+
+**Gerson Castillo**  
+Correo: [gersoncl10000@outlook.com](mailto:gersoncl10000@outlook.com)
 
 ---
 
-## Validación Cruzada
-
-Se utilizó validación cruzada de 5 bloques repetida 20 veces.
-
-### Resultados Lineales
-
-<div align="center">
-  <img src="informe/boxplot_r2_modelos.png" width="500"/>
-</div>
-
-- **Modelo Ganador**: Stepwise BIC
-- **R² Promedio**: 0.53
-- **Variables significativas**: población femenina, proporción de mayores de 65, densidad
-
----
-
-### Resultados Logísticos
-
-<div align="center">
-  <img src="informe/validacion_cruzada_auc.png" width="500"/>
-</div>
-
-- **Modelo Ganador**: Backward BIC
-- **AUC promedio**: 0.79
-- Variables clave: `ActividadPpal`, `WomanPopulationPtge`, `SameComAutonPtge`
-
----
-
-### Punto de Corte Óptimo
-
-<div align="center">
-  <img src="informe/curva_roc_punto_optimo.png" width="500"/>
-</div>
-
-- **Punto de corte óptimo**: 0.4765
-- Determinado mediante la distancia mínima al punto ideal (0,1)
-
----
-
-## Conclusiones
-
-- Se demuestra una **relación estructural y regional** en los patrones de abstención.
-- La combinación de técnicas de modelado clásicas con validación aleatoria mejora la robustez de los resultados.
-- Se propone el uso de este tipo de modelización como base para **sistemas de alerta temprana electoral**.
-
----
-
-## Contacto
-
-- **GitHub**: [gersoncl10000](https://github.com/gersoncl10000/TareaMineriaGerson)
-- **Email**: gersoncl10000@outlook.com
-
+Proyecto académico. No se ha utilizado generación automática de código ni herramientas de IA.
