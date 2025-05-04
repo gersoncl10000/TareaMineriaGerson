@@ -1,90 +1,134 @@
+# Predicción de la Abstención Electoral en los Municipios de España (2019)
 
-# Proyecto de Minería de Datos y Modelización Predictiva
+Este repositorio presenta el desarrollo completo de un ejercicio práctico de **Minería de Datos y Modelización Predictiva** realizado por Gerson Castillo como parte del Máster en Big Data, Data Science e Inteligencia Artificial de la **Universidad Complutense de Madrid**.
 
-Este proyecto ha sido desarrollado como parte de la práctica evaluable de la asignatura **Minería de Datos y Modelización Predictiva** del Máster en Big Data, Data Science e Inteligencia Artificial de la Universidad Complutense de Madrid.
-
-El análisis se ha realizado utilizando Python, respetando una estructura modular en archivos `.py`, y ejecutado íntegramente en el entorno Spyder. No se ha utilizado generación automática de código ni asistencia de herramientas de IA.
-
----
-
-## 📌 Objetivo
-
-Construir dos modelos predictivos basados en resultados electorales municipales en España:
-
-- **Modelo de Regresión Lineal:** predecir el porcentaje de abstención (`AbstentionPtge`).
-- **Modelo de Regresión Logística:** predecir la probabilidad de `AbstenciónAlta` (abstención superior a la mediana nacional).
+El proyecto se centra en la **predicción del comportamiento electoral en España** utilizando datos reales de los municipios en las elecciones de 2019, abordando tanto modelos de regresión lineal como de regresión logística, y aplicando técnicas de selección clásica y aleatoria de variables.
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Estructura del Repositorio
 
 ```
-├── data/                         # Datos originales (.xlsx)
-│   └── DatosEleccionesEspaña.xlsx
-├── informe/                      # Informe y gráficos oficiales del análisis
-│   ├── TAREA GERSON CASTILLO MINERIA DE DATOS.pdf
-│   ├── boxplot_r2_modelos.png
-│   ├── boxplot_auc_modelos.png
-│   ├── curva_roc_optimo.png
-├── src/                          # Código fuente
-│   └── codigo_mineria.py
-├── librerias.txt                 # Requisitos y entorno Python
-└── README.md                     # Descripción del proyecto
+TareaMineriaGerson/
+│
+├── data/
+│   └── DatosEleccionesEspaña.xlsx       # Conjunto de datos original
+│
+├── informe/
+│   ├── TAREA GERSON CASTILLO MINERIA DE DATOS.pdf  # Informe final del análisis
+│   ├── boxplot_r2_modelos.png                       # Comparación modelos lineales
+│   ├── boxplot_auc_modelos.png                      # Comparación modelos logísticos
+│   └── curva_roc_punto_corte.png                    # Curva ROC con punto de corte óptimo
+│
+├── src/
+│   └── codigo_mineria.py              # Código fuente principal del análisis
+│
+├── librerias.txt                      # Listado de paquetes Python utilizados
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## 🧪 Metodología y Modelos
+## 📌 Objetivo del Análisis
 
-### 1. Regresión Lineal
+Este estudio busca predecir el **porcentaje de abstención electoral** en cada municipio de España, así como clasificar los municipios según si presentan una **alta abstención (superior al 30%)**, utilizando:
 
-Se aplicaron múltiples estrategias de selección de variables:
+- **Modelos de regresión lineal** para predecir la variable continua `AbstentionPtge`.
+- **Modelos de regresión logística** para la clasificación binaria `AbstencionAlta`.
 
-- **Stepwise AIC / BIC**
-- **Backward AIC / BIC**
-- **Forward AIC / BIC**
-- **Selección Aleatoria (30 iteraciones)**
-
-El modelo ganador fue el **Stepwise BIC**, validado mediante 20 repeticiones de validación cruzada con 5 bloques.
-
-📊 **Gráfico de R² en validación cruzada:**
-![Boxplot R2](informe/boxplot_r2_modelos.png)
-
-### 2. Regresión Logística
-
-La variable binaria `AbstenciónAlta` fue definida con respecto a la mediana de `AbstentionPtge`. Se aplicaron las mismas estrategias de selección y validación.
-
-El modelo final seleccionado fue **Backward BIC**, con un AUC promedio superior en validación cruzada.
-
-📊 **Boxplot AUC (Validación cruzada):**
-![Boxplot AUC](informe/boxplot_auc_modelos.png)
-
-📈 **Curva ROC y Punto de Corte Óptimo:**
-![Curva ROC](informe/curva_roc_optimo.png)
-
-📌 **Punto de corte óptimo identificado:** `0.4765`
+Los datos incluyen variables demográficas, económicas, estructurales y regionales de cada municipio.
 
 ---
 
-## 📉 Interpretación de Coeficientes Logísticos
+## 📊 Metodología
 
-Dos variables destacadas en el modelo logístico final:
-
-- `CCAA_Cataluña`: coeficiente = **+1.876**, indica mayor probabilidad de alta abstención.
-- `WomanPopulationPtge`: coeficiente = **-0.042**, indica menor probabilidad de alta abstención con mayor proporción de mujeres.
-
----
-
-## 📘 Referencias Utilizadas
-
-- Documentos de clase: `Regresión_Lineal.pdf`, `Regresión_Logística.pdf`, `Selección_de_variables.pdf`
-- Código base: `FuncionesMineria.py`, ejemplos oficiales del curso.
-- Entorno: `entornoMineria` (Spyder, Python 3.9)
+1. **Depuración de datos**: detección y corrección de errores, tratamiento de outliers y valores perdidos.
+2. **Selección de variables**:
+   - Métodos clásicos: Stepwise, Forward, Backward con criterios AIC y BIC.
+   - Métodos aleatorios: submuestreo con selección stepwise BIC repetida.
+3. **Evaluación de modelos**:
+   - Validación cruzada con 5 bloques y 20 repeticiones.
+   - Métricas: R², AUC, número de parámetros.
+4. **Interpretación de resultados**: análisis de coeficientes, punto de corte óptimo para clasificación binaria.
 
 ---
 
-## 📌 Nota Final
+## 📈 Resultados Destacados
 
-Todo el trabajo ha sido realizado de forma **manual, estructurada y académicamente rigurosa**, incluyendo el preprocesamiento, la exploración, el modelado y la validación.
+### 📌 Comparación de Modelos de Regresión Lineal
 
-Este repositorio constituye la entrega oficial del trabajo final de la asignatura.
+![Boxplot R²](informe/boxplot_r2_modelos.png){ width=60% }
+
+> El modelo ganador fue el **Stepwise BIC**, por su equilibrio entre rendimiento (R² ≈ 0.629) y simplicidad (27 variables).
+
+### 📌 Comparación de Modelos Logísticos (AUC)
+
+![Boxplot AUC](informe/boxplot_auc_modelos.png){ width=60% }
+
+> El modelo **Backward BIC** obtuvo el mejor AUC promedio (≈ 0.8106), superando a modelos aleatorios.
+
+### 📌 Punto de Corte Óptimo
+
+![Curva ROC](informe/curva_roc_punto_corte.png){ width=60% }
+
+> Punto de corte óptimo determinado: **0.4765**  
+> (Balance ideal entre sensibilidad y especificidad en la curva ROC)
+
+---
+
+## 📐 Ejemplos de Interpretación de Coeficientes
+
+- `Age_under19_Ptge`: a mayor porcentaje de jóvenes, mayor abstención esperada.
+- `CCAA_Cataluña`: los municipios de Cataluña tienen una odds 6.5 veces mayor de alta abstención frente a la comunidad base.
+- `WomanPopulationPtge`: mayor proporción de mujeres se asocia con menor probabilidad de abstención.
+
+---
+
+## 🧪 Fórmulas Estadísticas Relevantes
+
+### Regresión Lineal
+
+\[
+Y = \beta_0 + \sum_{i=1}^p \beta_i X_i + \epsilon
+\]
+
+### Regresión Logística
+
+\[
+\text{logit}(p) = \ln\left(\frac{p}{1 - p}\right) = \beta_0 + \sum_{i=1}^p \beta_i X_i
+\]
+
+---
+
+## 🧠 Conclusiones
+
+- Las variables sociodemográficas y regionales son altamente predictivas del comportamiento electoral.
+- La validación cruzada permite justificar objetivamente la elección del modelo más robusto.
+- El trabajo demuestra cómo aplicar buenas prácticas de modelado y evaluación en un caso real.
+
+---
+
+## 💻 Requisitos Técnicos
+
+Para ejecutar el proyecto localmente:
+
+```bash
+# Crear entorno virtual (opcional)
+python -m venv venv
+source venv/bin/activate  # o .\venv\Scripts\activate en Windows
+
+# Instalar dependencias
+pip install -r librerias.txt
+```
+
+---
+
+## 📚 Referencias
+
+- **Universidad Complutense de Madrid**, Máster en Big Data, Data Science e IA.
+- Documentación oficial de la asignatura: Minería de Datos y Modelización Predictiva.
+
+---
+
+Proyecto realizado de forma íntegra y original, respetando los principios metodológicos del curso.
