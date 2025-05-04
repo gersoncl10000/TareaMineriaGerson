@@ -1,126 +1,90 @@
 
-# Predicción de la Abstención Electoral en Municipios de España (2019)
+# Proyecto de Minería de Datos y Modelización Predictiva
 
-Este proyecto ha sido desarrollado como parte del Máster en Big Data, Data Science e Inteligencia Artificial en la Universidad Complutense de Madrid. El objetivo es modelar y predecir la abstención electoral utilizando técnicas de minería de datos y regresión.
+Este proyecto ha sido desarrollado como parte de la práctica evaluable de la asignatura **Minería de Datos y Modelización Predictiva** del Máster en Big Data, Data Science e Inteligencia Artificial de la Universidad Complutense de Madrid.
 
----
-
-## 🎯 Objetivo del Estudio
-
-Construir dos modelos predictivos sobre datos reales de resultados electorales en España a nivel municipal:
-
-- **Regresión lineal** para predecir el porcentaje de abstención (`AbstentionPtge`).
-- **Regresión logística** para clasificar si un municipio tiene alta abstención (`AbstencionAlta`, binaria).
+El análisis se ha realizado utilizando Python, respetando una estructura modular en archivos `.py`, y ejecutado íntegramente en el entorno Spyder. No se ha utilizado generación automática de código ni asistencia de herramientas de IA.
 
 ---
 
-## 📦 Fuente de Datos
+## 📌 Objetivo
 
-El conjunto de datos se encuentra en el archivo:
+Construir dos modelos predictivos basados en resultados electorales municipales en España:
+
+- **Modelo de Regresión Lineal:** predecir el porcentaje de abstención (`AbstentionPtge`).
+- **Modelo de Regresión Logística:** predecir la probabilidad de `AbstenciónAlta` (abstención superior a la mediana nacional).
+
+---
+
+## 📁 Estructura del Proyecto
 
 ```
-data/DatosEleccionesEspaña.xlsx
-```
-
-Contiene indicadores socioeconómicos, demográficos y administrativos para todos los municipios de España en 2019.
-
----
-
-## 🧪 Metodología
-
-### 1. Preprocesamiento de Datos
-
-- Conversión de tipos de variables.
-- Detección y tratamiento de valores erróneos y atípicos.
-- Eliminación de observaciones con más del 50% de `NaNs`.
-- Agrupación de categorías raras.
-
-### 2. Modelado Predictivo
-
-- **Modelos utilizados**:
-  - Regresión Lineal: `lm_stepwise`, `lm_backward`, `lm_forward`.
-  - Regresión Logística: `glm_stepwise`, `glm_backward`, `glm_forward`.
-
-- **Criterios de selección**:
-  - Métricas de información: `AIC` y `BIC`.
-  - Validación cruzada: 5 bloques × 20 repeticiones.
-
-### 3. Evaluación y Comparación
-
-- Métricas utilizadas:
-  - Regresión lineal: R² (train/test).
-  - Regresión logística: Accuracy y AUC.
-- Determinación del punto óptimo de corte mediante la curva ROC.
-
----
-
-## 📊 Resultados
-
-### 🔵 Validación Cruzada (Regresión Lineal)
-
-![Boxplot R²](informe/boxplot_r2_modelos.png)
-
-> El modelo elegido fue el **Stepwise BIC**, con buena generalización y bajo número de parámetros.
-
-### 🟢 Validación Cruzada (Regresión Logística)
-
-![Boxplot AUC](informe/boxplot_auc_modelos.png)
-
-> El modelo **Backward BIC** superó en AUC a las combinaciones aleatorias.
-
-### 🔺 Curva ROC y Punto Óptimo
-
-![Curva ROC](informe/curva_roc_logistica.png)
-
-> Punto de corte óptimo: 0.4765
-
----
-
-## 📁 Estructura del Repositorio
-
-```
-├── data/
+├── data/                         # Datos originales (.xlsx)
 │   └── DatosEleccionesEspaña.xlsx
-├── informe/
+├── informe/                      # Informe y gráficos oficiales del análisis
 │   ├── TAREA GERSON CASTILLO MINERIA DE DATOS.pdf
 │   ├── boxplot_r2_modelos.png
 │   ├── boxplot_auc_modelos.png
-│   └── curva_roc_logistica.png
-├── src/
+│   ├── curva_roc_optimo.png
+├── src/                          # Código fuente
 │   └── codigo_mineria.py
-├── librerias.txt
-└── README.md
+├── librerias.txt                 # Requisitos y entorno Python
+└── README.md                     # Descripción del proyecto
 ```
 
 ---
 
-## ⚙️ Requisitos del Entorno
+## 🧪 Metodología y Modelos
 
-Instalar entorno y librerías especificadas en:
+### 1. Regresión Lineal
 
-```
-librerias.txt
-```
+Se aplicaron múltiples estrategias de selección de variables:
 
-Entorno recomendado: `Spyder` (Python 3.9).
+- **Stepwise AIC / BIC**
+- **Backward AIC / BIC**
+- **Forward AIC / BIC**
+- **Selección Aleatoria (30 iteraciones)**
+
+El modelo ganador fue el **Stepwise BIC**, validado mediante 20 repeticiones de validación cruzada con 5 bloques.
+
+📊 **Gráfico de R² en validación cruzada:**
+![Boxplot R2](informe/boxplot_r2_modelos.png)
+
+### 2. Regresión Logística
+
+La variable binaria `AbstenciónAlta` fue definida con respecto a la mediana de `AbstentionPtge`. Se aplicaron las mismas estrategias de selección y validación.
+
+El modelo final seleccionado fue **Backward BIC**, con un AUC promedio superior en validación cruzada.
+
+📊 **Boxplot AUC (Validación cruzada):**
+![Boxplot AUC](informe/boxplot_auc_modelos.png)
+
+📈 **Curva ROC y Punto de Corte Óptimo:**
+![Curva ROC](informe/curva_roc_optimo.png)
+
+📌 **Punto de corte óptimo identificado:** `0.4765`
 
 ---
 
-## ▶️ Ejecución
+## 📉 Interpretación de Coeficientes Logísticos
 
-Ejecutar el código principal desde:
+Dos variables destacadas en el modelo logístico final:
 
-```
-src/codigo_mineria.py
-```
-
----
-
-## 👤 Autor
-
-**Gerson Castillo**  
-Correo: [gersoncl10000@outlook.com](mailto:gersoncl10000@outlook.com)
+- `CCAA_Cataluña`: coeficiente = **+1.876**, indica mayor probabilidad de alta abstención.
+- `WomanPopulationPtge`: coeficiente = **-0.042**, indica menor probabilidad de alta abstención con mayor proporción de mujeres.
 
 ---
 
-Proyecto académico. No se ha utilizado generación automática de código ni herramientas de IA.
+## 📘 Referencias Utilizadas
+
+- Documentos de clase: `Regresión_Lineal.pdf`, `Regresión_Logística.pdf`, `Selección_de_variables.pdf`
+- Código base: `FuncionesMineria.py`, ejemplos oficiales del curso.
+- Entorno: `entornoMineria` (Spyder, Python 3.9)
+
+---
+
+## 📌 Nota Final
+
+Todo el trabajo ha sido realizado de forma **manual, estructurada y académicamente rigurosa**, incluyendo el preprocesamiento, la exploración, el modelado y la validación.
+
+Este repositorio constituye la entrega oficial del trabajo final de la asignatura.
